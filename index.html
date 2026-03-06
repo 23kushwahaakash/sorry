@@ -26,7 +26,6 @@
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='24'%3E🌸%3C/text%3E%3C/svg%3E"), auto;
     }
 
-    /* Floating petals background */
     .petals-bg {
       position: fixed;
       inset: 0;
@@ -49,7 +48,6 @@
       100% { transform: translateY(110vh) rotate(360deg) translateX(-20px); opacity: 0; }
     }
 
-    /* Page layout */
     .page {
       position: relative;
       z-index: 1;
@@ -61,16 +59,13 @@
       padding: 40px 20px;
     }
 
-    /* Card */
     .card {
       background: #fff;
       border-radius: 32px;
       max-width: 580px;
       width: 100%;
       padding: 60px 50px;
-      box-shadow:
-        0 8px 40px rgba(232, 96, 122, 0.12),
-        0 2px 8px rgba(232, 96, 122, 0.06);
+      box-shadow: 0 8px 40px rgba(232, 96, 122, 0.12), 0 2px 8px rgba(232, 96, 122, 0.06);
       position: relative;
       overflow: hidden;
       animation: cardIn 1s cubic-bezier(.22,1,.36,1) both;
@@ -96,7 +91,6 @@
       to   { background-position: 200%; }
     }
 
-    /* Corner decorations */
     .card::after {
       content: '🌸';
       position: absolute;
@@ -106,7 +100,6 @@
       opacity: 0.18;
     }
 
-    /* Heart icon */
     .heart-wrap {
       text-align: center;
       margin-bottom: 28px;
@@ -132,7 +125,6 @@
       56%       { transform: scale(1); }
     }
 
-    /* Heading */
     h1 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(2rem, 6vw, 3rem);
@@ -159,7 +151,6 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* Divider */
     .divider {
       display: flex;
       align-items: center;
@@ -174,10 +165,7 @@
     }
     .divider span { font-size: 1.1rem; }
 
-    /* Letter body */
-    .letter {
-      animation: fadeUp 0.9s 0.7s both;
-    }
+    .letter { animation: fadeUp 0.9s 0.7s both; }
 
     .letter p {
       font-size: 1.05rem;
@@ -187,44 +175,43 @@
       margin-bottom: 18px;
     }
 
-    .letter p strong {
-      font-weight: 400;
-      color: var(--rose);
-    }
+    .letter p strong { font-weight: 400; color: var(--rose); }
 
     .letter p.indent {
       padding-left: 20px;
       border-left: 3px solid var(--blush);
     }
 
-    /* Signature */
-    .signature {
-      margin-top: 36px;
-      text-align: right;
-      animation: fadeUp 0.9s 0.85s both;
+    /* Tap nudge */
+    .tap-nudge {
+      text-align: center;
+      margin-bottom: 14px;
+      animation: fadeUp 0.9s 1s both;
     }
 
-    .signature .from {
+    .tap-nudge p {
       font-family: 'Playfair Display', serif;
       font-style: italic;
+      font-size: 0.95rem;
       color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 4px;
     }
 
-    .signature .name {
-      font-family: 'Playfair Display', serif;
+    .tap-arrow {
       font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--rose);
-      letter-spacing: -0.5px;
+      display: block;
+      animation: bounce 1.2s ease-in-out infinite;
+      margin-top: 4px;
     }
 
-    /* Forgive button */
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(8px); }
+    }
+
     .btn-wrap {
       text-align: center;
-      margin-top: 44px;
-      animation: fadeUp 0.9s 1s both;
+      margin-top: 0;
+      animation: fadeUp 0.9s 1.1s both;
     }
 
     .forgive-btn {
@@ -248,11 +235,8 @@
       box-shadow: 0 14px 32px rgba(232,96,122,0.45);
     }
 
-    .forgive-btn:active {
-      transform: scale(0.97);
-    }
+    .forgive-btn:active { transform: scale(0.97); }
 
-    /* Response message */
     .response {
       display: none;
       text-align: center;
@@ -278,7 +262,6 @@
       margin-top: 8px;
     }
 
-    /* Floating hearts on forgive */
     .float-heart {
       position: fixed;
       pointer-events: none;
@@ -299,7 +282,6 @@
 </head>
 <body>
 
-<!-- Floating petals -->
 <div class="petals-bg" id="petals"></div>
 
 <div class="page">
@@ -338,6 +320,11 @@
       </p>
     </div>
 
+    <!-- Tap nudge -->
+    <div class="tap-nudge">
+      <p> Tap</p>
+      <span class="tap-arrow">👇</span>
+    </div>
 
     <div class="btn-wrap">
       <button class="forgive-btn" onclick="onForgive(event)">
@@ -352,7 +339,6 @@
 </div>
 
 <script>
-  // Generate falling petals
   const emojis = ['🌸', '🌷', '🌺', '🍀', '✨', '💮'];
   const bg = document.getElementById('petals');
   for (let i = 0; i < 22; i++) {
@@ -366,16 +352,16 @@
     bg.appendChild(p);
   }
 
-  // Forgive button
   function onForgive(e) {
     const btn = e.currentTarget;
     btn.textContent = 'Me tooo😁!';
     btn.style.background = 'linear-gradient(135deg, #c94b6a, #9b2a45)';
     btn.disabled = true;
 
+    // Hide the nudge once clicked
+    document.querySelector('.tap-nudge').style.display = 'none';
     document.getElementById('response').style.display = 'block';
 
-    // Burst floating hearts from button
     for (let i = 0; i < 14; i++) {
       setTimeout(() => {
         const h = document.createElement('div');
